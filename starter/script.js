@@ -9,9 +9,6 @@ const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const learnBtn = document.querySelector('.btn--scroll-to');
-// section
-const section1 = document.querySelector('#section--1');
-const sections = document.querySelectorAll('.nav__links');
 
 // openModal function
 const openModal = function () {
@@ -29,11 +26,13 @@ const closeModal = function () {
 btnsOpenModal.forEach(btn => btn.addEventListener('click', openModal));
 
 // Learn more btn
+const section1 = document.querySelector('#section--1');
 learnBtn.addEventListener('click', function (e) {
   section1.scrollIntoView({ behavior: 'smooth' });
 });
 
 // navigation, do not use forEach
+const sections = document.querySelector('.nav__links');
 const navsHandler = function (e) {
   e.preventDefault();
 
@@ -42,6 +41,30 @@ const navsHandler = function (e) {
     document.querySelector(hash).scrollIntoView({ behavior: 'smooth' });
   }
 };
+
+// operation btn
+const operationContain = document.querySelector('.operations__tab-container');
+const tabs = document.querySelectorAll('.operations__tab');
+const opContent = document.querySelectorAll('.operations__content');
+
+operationContain.addEventListener('click', function (e) {
+  // get target tab, avoid click span
+  const tab = e.target.closest('.operations__tab');
+  console.log(tab);
+
+  // if not click tab
+  if (!tab) return;
+
+  // add tabs active
+  tabs.forEach(e => e.classList.remove('operations__tab--active'));
+  tab.classList.add('operations__tab--active');
+
+  // update content
+  opContent.forEach(i => i.classList.remove('operations__content--active'));
+  document
+    .querySelector(`.operations__content--${tab.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
 
 sections.addEventListener('click', navsHandler);
 btnCloseModal.addEventListener('click', closeModal);
