@@ -126,8 +126,31 @@ sectionAll.forEach(function (sec) {
   sec.classList.add('section--hidden');
 });
 
-// Replace src with data-src
+// Lazy loading images
+const clearImgs = document.querySelectorAll('img[data-src]');
 
+const loadImg = function (entries, observer) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) return;
+
+  // Replace src with data-src
+  entry.target.src = entry.target.dataset.src;
+
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  });
+  observer.unobserve(entry.target);
+};
+
+const imgObs = new IntersectionObserver(loadImg, {
+  root: null,
+  threshold: 0,
+  rootMargin: '40px',
+});
+
+clearImgs.forEach(function (i) {
+  imgObs.observe(i);
+});
 // addEvent
 nav.addEventListener('mouseover', navHandler.bind(0.5));
 nav.addEventListener('mouseout', navHandler.bind(1));
