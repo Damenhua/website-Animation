@@ -9,6 +9,16 @@ const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const learnBtn = document.querySelector('.btn--scroll-to');
+// section
+const section1 = document.querySelector('#section--1');
+// nav
+const navLinks = document.querySelector('.nav__links');
+const nav = document.querySelector('.nav');
+// operation
+const operationContain = document.querySelector('.operations__tab-container');
+const tabs = document.querySelectorAll('.operations__tab');
+const opContent = document.querySelectorAll('.operations__content');
+//
 
 // openModal function
 const openModal = function () {
@@ -26,13 +36,11 @@ const closeModal = function () {
 btnsOpenModal.forEach(btn => btn.addEventListener('click', openModal));
 
 // Learn more btn
-const section1 = document.querySelector('#section--1');
 learnBtn.addEventListener('click', function (e) {
   section1.scrollIntoView({ behavior: 'smooth' });
 });
 
 // navigation, do not use forEach
-const sections = document.querySelector('.nav__links');
 const navsHandler = function (e) {
   e.preventDefault();
 
@@ -43,10 +51,6 @@ const navsHandler = function (e) {
 };
 
 // operation btn
-const operationContain = document.querySelector('.operations__tab-container');
-const tabs = document.querySelectorAll('.operations__tab');
-const opContent = document.querySelectorAll('.operations__content');
-
 operationContain.addEventListener('click', function (e) {
   // get target tab, avoid click span
   const tab = e.target.closest('.operations__tab');
@@ -66,7 +70,27 @@ operationContain.addEventListener('click', function (e) {
     .classList.add('operations__content--active');
 });
 
-sections.addEventListener('click', navsHandler);
+// nav animation
+const navHandler = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    const eTarget = e.target;
+    const link = eTarget.closest('.nav').querySelectorAll('.nav__link');
+    const logo = eTarget.closest('.nav').querySelector('img');
+
+    link.forEach(i => {
+      if (i !== eTarget) {
+        i.style.opacity = this;
+      }
+    });
+    logo.style.opacity = this;
+  }
+};
+
+//
+
+nav.addEventListener('mouseover', navHandler.bind(0.5));
+nav.addEventListener('mouseout', navHandler.bind(1));
+navLinks.addEventListener('click', navsHandler);
 btnCloseModal.addEventListener('click', closeModal);
 overlay.addEventListener('click', closeModal);
 
